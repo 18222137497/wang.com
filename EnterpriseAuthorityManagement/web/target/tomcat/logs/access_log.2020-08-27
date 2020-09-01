@@ -1,0 +1,17 @@
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET / HTTP/1.1" 200 2501 http-bio-80-exec-1 166
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/bootstrap/css/bootstrap.min.css HTTP/1.1" 200 121237 http-bio-80-exec-4 53
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/ionicons/css/ionicons.min.css HTTP/1.1" 200 51284 http-bio-80-exec-3 70
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/font-awesome/css/font-awesome.min.css HTTP/1.1" 200 31000 http-bio-80-exec-2 87
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/jQuery/jquery-2.2.3.min.js HTTP/1.1" 200 85659 http-bio-80-exec-7 83
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/iCheck/square/blue.css HTTP/1.1" 200 1611 http-bio-80-exec-6 88
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/adminLTE/css/AdminLTE.css HTTP/1.1" 200 110374 http-bio-80-exec-5 90
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/iCheck/icheck.min.js HTTP/1.1" 200 4516 http-bio-80-exec-10 85
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 37045 http-bio-80-exec-9 86
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028 http-bio-80-exec-9 6
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /plugins/iCheck/square/blue.png HTTP/1.1" 200 2185 http-bio-80-exec-9 16
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /favicon.ico HTTP/1.1" 302 - http-bio-80-exec-9 31
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:12:51 +0800] "GET /login.jsp HTTP/1.1" 200 2501 http-bio-80-exec-9 20
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:13:04 +0800] "GET /all-admin-index.html HTTP/1.1" 302 - http-bio-80-exec-9 5
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:13:04 +0800] "GET /login.jsp HTTP/1.1" 200 2501 http-bio-80-exec-9 4
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:13:05 +0800] "GET /favicon.ico HTTP/1.1" 302 - http-bio-80-exec-9 5
+0:0:0:0:0:0:0:1 - - [27/Aug/2020:22:13:05 +0800] "GET /login.jsp HTTP/1.1" 200 2501 http-bio-80-exec-9 1

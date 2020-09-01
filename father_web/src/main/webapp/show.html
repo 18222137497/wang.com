@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品展示</title>
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/getParameter.js"></script>
+    <style>
+        #name{
+            color: #080808;
+        }
+        #quit{
+            color: #9d9d9d;
+        }
+    </style>
+    <script>
+        function showOne(jid){
+            $.get("jimg/findJid",{jid:jid},function (data) {
+                let a=window.encodeURIComponent(data.src);
+                let b=window.encodeURIComponent(a);//需要两次编码，情况不明
+                let html='<img alt="140x140" src="png/'+b+'" class="img-thumbnail" />\n' +
+                    '                        <h2>\n' +
+                    '                            '+data.jname+'\n' +
+                    '                        </h2>\n' +
+                    '                        <p>\n' +
+                                                data.word+
+                    '                        </p>\n' +
+                    '                        <p>\n' +
+                    '                            <a class="btn" href="" id="shoucang" onclick="add()">收藏</a>\n' +
+                    '                        </p>';
+                $("#showOne").html(html);
+            })
+        }
+        function ifshoucang(jid){
+            $.get("jimg/findIfshoucang",{jid:jid},function (data) {
+                if (data){
+                    $("#shoucang").text('已收藏');
+                    $("#shoucang").prop("href","#")
+                    $("#shoucang").prop("onclick","return false;")
+                }
+            })
+        }
+        function add(){
+            let jid=getParameter("jid");
+            $.get("jimg/addjimg",{jid:jid},function (data) {
+                if (data){
+                    alert('添加成功');
+                }else {
+                    alert("添加失败");
+                }
+            })
+        }
+        $(function () {
+            $.get("user/findUser",{},function (data) {
+                let name=data.name
+                $("#name").html(name);
+            })
+            let jid=getParameter("jid");
+            showOne(jid);
+            ifshoucang(jid);
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron well">
+                <h1>
+                    商铺管理系统!
+                </h1>
+                <p>
+                    第一个较大的项目
+                </p>
+            </div>
+            <p align="right" id="message">欢迎您：<b id="name"></b>&nbsp;&nbsp;&nbsp;<a >我的收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="quit" href="javascript:location.href='user/quit'">退出登录</a></p>
+            <ul class="nav nav-tabs">
+                <li >
+                    <a href="homepage.html">首页</a>
+                </li>
+                <li>
+                    <a href="stock.html">货存</a>
+                </li>
+                <li >
+                    <a href="#">流水</a>
+                </li>
+            </ul>
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="col-md-12 column" id="showOne">
+                        <!--加信息-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

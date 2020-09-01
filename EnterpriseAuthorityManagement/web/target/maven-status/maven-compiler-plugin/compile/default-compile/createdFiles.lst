@@ -1,0 +1,7 @@
+com\wang\Controller\OrdersController.class
+com\wang\Controller\PermissionController.class
+com\wang\Controller\aopLog.class
+com\wang\Controller\aopLogController.class
+com\wang\Controller\ProductController.class
+com\wang\Controller\RoleController.class
+com\wang\Controller\UserController.class

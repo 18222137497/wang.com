@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        #put_vcode{
+            width: 80px;
+        }
+    </style>
+    <script>
+        //验证表单 用户名：单词字符长度8~20  密码：单词字符长度8~20  验证码：非空
+        var reg=/^\w{8,20}$/;
+        function checkUsername(){
+            var username=$("#exampleInputUsername").val();
+            var flag=reg.test(username);
+            if (flag){
+                $("#exampleInputUsername").css("border","");
+            }else {
+                $("#exampleInputUsername").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkPassword(){
+            let password=$("#exampleInputPassword").val();
+            let flag=reg.test(password);
+            if (flag){
+                $("#exampleInputPassword").css("border","");
+            }else {
+                $("#exampleInputPassword").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkVcode(){
+            let put_vcode=$("#put_vcode").val();
+            if (put_vcode!=""){
+                $("#put_vcode").css("border","");
+                return true;
+            }else {
+                $("#put_vcode").css("border","1px solid red");
+                return false;
+            }
+        }
+        function get(obj){
+            $(obj).css("border","");
+        }
+        $(function () {
+            $("#login_from").submit(function () {
+                if (checkUsername()&&checkPassword()&&checkVcode()){
+                    $.post("user/login",$(this).serialize(),function (date) {
+                        if (date.flag){
+                            location.href="homepage.html";
+                        }else {
+                            $("#errorMsg").html(date.errorMsg);
+                        }
+                    })
+                }
+                return false;
+            })
+
+            $("#exampleInputUsername").blur(checkUsername);
+            $("#exampleInputPassword").blur(checkPassword);
+            $("#put_vcode").blur(checkVcode);
+            $("input").focus(function (){
+                $(this).css("border","");
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron">
+                <h1>
+                    登录界面!
+                </h1>
+                <p>
+                    商铺管理系统
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-large" href="top.html">返回首页</a>
+                </p>
+            </div>
+            <div id="errorMsg" style="color: red;text-align: center"></div>
+            <form role="form" method="post" id="login_from">
+                <div class="form-group">
+                    <label for="exampleInputUsername">用户名</label><input type="text" name="username" class="form-control" id="exampleInputUsername" placeholder="请输入用户名"/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword">密码</label><input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="请输入密码"/>
+                </div>
+                <div class="form-group">
+                    <label>验证码</label><input type="text" name="put_vcode" class="form-control" id="put_vcode"/><img src="checkCode" title="看不清点击刷新" onclick="changeCheckCode(this)" id="vcode">
+                </div>
+                <button type="submit" class="btn btn-default">登录</button>&nbsp;&nbsp;<a>没有账号?创建用户</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function changeCheckCode(img) {
+        img.src="checkCode?"+new Date().getTime();
+    }
+</script>
+</html>

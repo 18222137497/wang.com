@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>货存</title>
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/getParameter.js"></script>
+    <style>
+        #name{
+            color: #080808;
+        }
+        #quit{
+            color: #9d9d9d;
+        }
+    </style>
+    <script>
+        //展示数据
+        function show(data) {
+            let list="";
+            for (let i=0;i<data.list.length;i++){
+                let ii=i+1;
+                let bfb=data.list[i].cnumber/data.list[i].callnumber*100;
+                list+='<tr>\n' +
+                    '                    <td>\n' +
+                    '                        '+data.list[i].cid+'\n' +
+                    '                    </td>\n' +
+                    '                    <td>\n' +
+                    '                        '+data.list[i].tname+'\n' +
+                    '                    </td>\n' +
+                    '                    <td>\n' +
+                    '                        '+data.list[i].cname+'\n' +
+                    '                    </td>\n' +
+                    '                    <td>\n' +
+                    '                        '+data.list[i].cnumber+data.list[i].uoq+'\n' +
+                    '                    </td>\n' +
+                    '                    <td>\n' +
+                    '                        '+data.list[i].caddtime+'\n' +
+                    '                    </td>\n' +
+                    '                    <td>\n' +
+                    '                        <div class="progress"><div class="progress-bar" role="progressbar"  aria-valuemin="0" aria-valuemax="100" style="width: '+bfb+'%;"></div></div>\n' +
+                    '                    </td>\n' +
+                    '                    <td>\n' +
+                    '                        <input type="button" value="删除" onclick="delCargo('+data.list[i].cid+')">\n' +
+                    '                    </td>\n' +
+                    '                </tr>';
+            }//千万别忘了创建cid属性
+            $("#tbody1").html(list);
+        }
+        //分页点击
+        function page(index,seek){
+            $.get("cargo/findByCargoAll",{currentPage:index,seek:seek},function (data) {
+                let begin=1;
+                let end=data.totalPage;
+                if (data.totalPage>10) {//超过10页
+                    begin=index-5;
+                    end=begin+9;
+                    if (begin<1){
+                        begin=1;
+                        end=10;
+                    }
+                    if (end>data.totalPage){
+                        end=data.totalPage;
+                        begin=end-9;
+                    }
+                }
+                //分页显示
+                let li='<li id="top_page"><a href="#" id="shang" onclick=page("'+(data.currentPage==1?data.currentPage:data.currentPage-1)+'","'+seek+'") >上一页</a></li>';
+                for (let i=begin;i<end+1;i++){
+                    if (i==data.currentPage){
+                        li+='<li ><a href="#" onclick=page("'+i+'","'+seek+'") style="color: #0f0f0f">'+i+'</a></li>';
+                    }else {
+                        li += '<li><a href="#" onclick=page("' + i + '","' + seek + '")>' + i + '</a></li>';
+                    }
+                }
+                li+='<li><a href="#" id="xia" onclick=page("'+(data.currentPage==1?data.currentPage:data.currentPage+1)+'","'+seek+'")>下一页</a></li>';
+                $("#fenye").html(li);
+                show(data);
+            });
+        };
+        $(function () {
+            //显示用户名
+            $.get("user/findUser",{},function (data) {
+                let name=data.name;
+                $("#name").html(name);
+            })
+            //初始展示数据和页数
+            $.get("cargo/findByCargoAll",{},function (data) {
+                page(1,null);
+            })
+            //查找按钮
+            $("#seek").click(function () {
+                let seek=$("#exampleInputName2").val();
+                seek=encodeURI(seek);
+                page(1,seek);
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron well">
+                <h1>
+                    商铺管理系统!
+                </h1>
+                <p>
+                    第一个较大的项目
+                </p>
+            </div>
+            <p align="right" id="message">欢迎您：<b id="name"></b>&nbsp;&nbsp;&nbsp;<a>我的收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="quit" href="javascript:location.href='user/quit'">退出登录</a></p>
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="homepage.html">首页</a>
+                </li>
+                <li class="active">
+                    <a href="#" onclick="return false;">货存</a>
+                </li>
+                <li >
+                    <a href="#">流水</a>
+                </li>
+            </ul>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        编号
+                    </th>
+                    <th>
+                        产品类型
+                    </th>
+                    <th>
+                        产品名称
+                    </th>
+                    <th>
+                        现存数量
+                    </th>
+                    <th>
+                        添加的时间
+                    </th>
+                    <th>
+                        库存情况
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="tbody1">
+                <!--数据列表-->
+                </tbody>
+            </table>
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control"  id="exampleInputName2" placeholder="请输入关键词">
+                    <button type="button" class="btn btn-default" id="seek">搜索</button>
+                </div>
+            </form>
+            <button type="button" class="btn btn-default">添加新商品</button><br>
+            <ul class="pagination" id="fenye">
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

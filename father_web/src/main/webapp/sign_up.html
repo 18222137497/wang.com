@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        function get(obj){
+            $(obj).css("border","");
+        }
+        function checkUsername() {
+            let username=$("#exampleInputUsername").val();
+            let regExp=/^\w{8,20}$/;
+            let flag=regExp.test(username);
+            if (flag){
+                $("#exampleInputUsername").css("border","");
+            }else {
+                $("#exampleInputUsername").css("border","1px solid red")
+            }
+            return flag;
+        }
+        function checkPassword(){
+            let password=$("#exampleInputPassword").val();
+            let regExp=/^\w{8,20}$/;
+            let flag=regExp.test(password);
+            if (flag){
+                $("#exampleInputPassword").css("border","");
+            }else {
+                $("#exampleInputPassword").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkName() {
+            let name=$("#exampleInputName").val();
+            let regExp=/^[\u4e00-\u9fa5]{2,4}$/;
+            let flag=regExp.test(name);
+            if (flag){
+                $("#exampleInputName").css("border","");
+            }else {
+                $("#exampleInputName").css("border","1px solid red")
+            }
+            return flag;
+        }
+        function checkBirthday() {
+            let birthday=$("#birthday").val();
+            if (birthday!=""){
+                $("#birthday").css("border","");
+                return true;
+            }else {
+                $("#birthday").css("border","1px solid red")
+                return false;
+            }
+        }
+        function checkPhone() {
+            let phone=$("#phone").val();
+            let regExp=/^\d{11}$/
+            let flag=regExp.test(phone);
+            if (flag){
+                $("#phone").css("border","");
+            }else {
+                $("#phone").css("border","1px solid red")
+            }
+            return flag;
+        }
+        function checkEmail(){
+            let email=$("#email").val();
+            let regExp=/^\w+@+\w+\.\w+$/;
+            let flag = regExp.test(email);
+            if (flag){
+                $("#email").css("border","");
+            }else{
+                $("#email").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkVcode(){
+            let put_vcode=$("#put_vcode").val();
+            if (put_vcode!=""){
+                $("#put_vcode").css("border","");
+                return true;
+            }else {
+                $("#put_vcode").css("border","1px solid red");
+                return false;
+            }
+        }
+        $(function () {
+            $("#sign_up_from").submit(function () {
+                if (checkUsername()&&checkPassword()&&checkName()&&checkBirthday()&&checkPhone()&&checkEmail()&&checkVcode()) {
+                    $.post("user/sign",$(this).serialize(),function (data) {
+                        if (data.flag){
+                            location.href="sign_ok.html";
+                        }else {
+                            $("#errorMsg").html(data.errorMsg);
+                        }
+                    })
+                }
+                return false;
+            })
+            $("#exampleInputUsername").blur(checkUsername);
+            $("#exampleInputPassword").blur(checkPassword);
+            $("#exampleInputName").blur(checkName);
+            $("#birthday").blur(checkBirthday);
+            $("#phone").blur(checkPhone);
+            $("#email").blur(checkEmail);
+            $("#put_vcode").blur(checkVcode);
+            $("input").focus(function (){
+                $(this).css("border","");
+            });
+        })
+
+    </script>
+    <style>
+        #put_vcode{
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron">
+                <h1>
+                    注册界面!
+                </h1>
+                <p>
+                    商铺管理系统
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-large" href="top.html">返回首页</a>
+                </p>
+            </div>
+            <div id="errorMsg" style="color: red;text-align: center"></div>
+            <form role="form" method="post" id="sign_up_from">
+                <div class="form-group">
+                    <label for="exampleInputUsername">用户名</label><input type="text" name="username" class="form-control" id="exampleInputUsername" placeholder="请输入用户名"/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword">密码</label><input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="请输入密码"/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputName">姓名</label><input type="text" name="name" class="form-control" id="exampleInputName" placeholder="请输入姓名"/>
+                </div>
+                <div class="form-group">
+                    <label for="birthday">生日</label><input type="date" name="birthday" class="form-control" id="birthday" />
+                </div>
+                <div>
+                    <label >性别</label>
+                    男<input type="radio" name="sex" id="sex0" value="男" checked/>
+                    女<input type="radio" name="sex" id="sex1" value="女"/>
+                </div>
+                <div class="form-group">
+                    <label for="phone">手机号码</label><input type="text" name="phone" class="form-control" id="phone" placeholder="请输入手机号"/>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label><input type="email" name="email" class="form-control" id="email" placeholder="请输入邮箱"/>
+                </div>
+                <div class="form-group">
+                    <label>验证码</label><input type="text" name="put_vcode" class="form-control" id="put_vcode"/><img src="checkCode" title="看不清点击刷新" onclick="changeCheckCode(this)" id="vcode">
+                </div>
+                <button type="submit" class="btn btn-default">注册</button>&nbsp;&nbsp;<a href="login.html">已有账号?选择登录</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function changeCheckCode(img) {
+        img.src="checkCode?"+new Date().getTime();
+    }
+</script>
+</html>

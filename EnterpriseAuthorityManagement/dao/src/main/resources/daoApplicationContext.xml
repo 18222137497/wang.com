@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    设置注解扫描-->
+    <context:component-scan base-package="com.wang.dao"></context:component-scan>
+    <!--    加载数据库连接配置文件-->
+    <context:property-placeholder location="classpath:oracleConfig.properties"></context:property-placeholder>
+    <!--    使用spring自带连接池-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${java.driver}"></property>
+        <property name="url" value="${java.url}"></property>
+        <property name="username" value="${java.username}"></property>
+        <property name="password" value="${java.password}"></property>
+    </bean>
+    <!--    创建执行工厂对象-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <!--        导入mybatis配置文件-->
+        <property name="configLocation" value="classpath:mybatisConfig.xml"></property>
+<!--        配置mybatis的分页插件pageHelper-->
+<!--        pageHelper的具体应用详情参考:https://blog.csdn.net/Huangyuhua068/article/details/83780726-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="helperDialect">oracle</prop>
+<!--                            分页合理化-->
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+    <!--    设置Dao包所在位置-->
+    <bean  id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.wang.dao"></property>
+    </bean>
+</beans>

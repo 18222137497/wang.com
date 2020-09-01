@@ -1,0 +1,12 @@
+com\wang\service\OrdersService.class
+com\wang\service\Impl\OrdersServiceImpl.class
+com\wang\service\Impl\PermissionServiceImpl.class
+com\wang\service\Impl\RoleServiceImpl.class
+com\wang\service\ProductService.class
+com\wang\service\UserService.class
+com\wang\service\PermissionService.class
+com\wang\service\RoleService.class
+com\wang\service\SysLogService.class
+com\wang\service\Impl\UserServiceImpl.class
+com\wang\service\Impl\SysLogServiceImpl.class
+com\wang\service\Impl\ProductServiceImpl.class
